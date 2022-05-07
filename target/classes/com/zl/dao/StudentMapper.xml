@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zl.dao.StudentMapper">	
+   <resultMap type="student" id="stuRe">
+     <id column="eId" property="eId"/>
+     <result column="eNum" property="eNum" ></result>
+     <result column="eName" property="eName" ></result>
+     <result column="epwd" property="epwd" ></result>
+     <result column="age" property="age" ></result>
+     <result column="sex" property="sex" ></result>
+     <result column="address" property="address" ></result>
+     <result column="phone" property="phone" ></result>
+     <result column="regDate" property="regDate" ></result>
+     <result column="schoolDate" property="schoolDate" ></result>
+     <result column="score1" property="score1" ></result>
+     <result column="score2" property="score2" ></result>
+     <result column="score3" property="score3" ></result>
+     <result column="isGo" property="isGo" ></result>
+     
+     <association property="role" column="rId" javaType="role" select="com.zl.dao.RoleMapper.queryRoleById"></association>
+     <association property="classes" column="cId" javaType="classes" select="com.zl.dao.ClassesMapper.queryClassById"></association>
+     <association property="dept" column="dId" javaType="dept" select="com.zl.dao.DeptMapper.queryDeptById"></association>
+   </resultMap>
+   
+   
+   <insert id="insertStu" parameterType="student">
+	 insert into student(eNum,eName,epwd,age,sex,address,phone,regDate,schoolDate,score1,score2,score3,cId,dId,isGo,rId)
+	 values 
+	(#{eNum},#{eName},#{epwd},#{age},#{sex},#{address},#{phone},#{regDate},#{schoolDate},#{score1},#{score2},#{score3},#{classes.cId},#{dept.dId},#{isGo},#{role.rId})
+   </insert>
+   
+   <select id="stuLog" parameterType="student" resultMap="stuRe">
+    select * from student where eName=#{eName} and epwd=#{epwd}
+   </select>
+   
+   <select id="findStu" parameterType="int" resultType="student">
+    select eNum,schoolDate,score1,score2,score3,eId from student where eId=#{eId}
+   </select>
+   
+   <update id="updateStu" parameterType="student">
+    update student set eName=#{eName},age=#{age},sex=#{sex},address=#{address},phone=#{phone} where eId=#{eId}
+   </update>
+   
+   <delete id="delStu" parameterType="int">
+    delete from student where eId=#{eId} 
+   </delete>
+   
+   <update id="go">
+    update student set isGo=#{0} where eId=#{1}
+   </update>
+   
+   <update id="upScore" parameterType="student">
+     update student set eNum=#{eNum},schoolDate=#{schoolDate},score1=#{score1},score2=#{score2},score3=#{score3} where eId=#{eId}
+   </update>
+   
+   <select id="findStuByDid" parameterType="int" resultMap="stuRe">
+    select * from student where dId=#{dId}
+   </select>
+   
+   <select id="findName" parameterType="java.lang.String" resultType="int">
+     select count(1) from student where eName=#{eName}
+   </select>
+   
+   <select id="queryAllStu" parameterType="int" resultMap="stuRe">
+    select * from student where eId=#{eId}
+   </select>
+   
+   
+   <!--查看班级  -->
+   <select id="queryStuByFy" parameterType="fenYe" resultMap="stuRe">
+	 select * from  student where cId=(select cId from class where eId=#{query.eId})
+	 <if test="query!=null">
+	   <if test="query.qName!=null and query.qName !=''">
+	     and eName like concat('%',concat(#{query.qName},'%'))
+	   </if>
+	   <if test="query.qsDate!=null">
+	    and schoolDate>#{query.qsDate} 
+	   </if>
+	   
+	   <if test="query.qeDate!=null">
+	    and schoolDate<![CDATA[<=]]>#{query.qeDate}	    
+	   </if>
+	 </if>
+	limit #{startRow},3
+	</select> 
+	
+	
+	<select id="queryRowCount" parameterType="query" resultType="int">
+	 select count(1) from student where cId=(select cId from class where eId=#{eId})
+		<if test="qName!=null and qName !=''">
+	     and eName like concat('%',concat(#{qName},'%'))
+	   </if>
+	   <if test="qsDate!=null">
+	    and schoolDate>#{qsDate} 
+	   </if>
+	   
+	   <if test="qeDate!=null">
+	    and schoolDate<![CDATA[<=]]>#{qeDate}	    
+	   </if>
+	</select>
+	<!--查看部门  -->
+	<select id="queryStuByDpt" parameterType="fenYe2" resultMap="stuRe">
+	 select * from  student where dId=#{query2.dId}
+	 <if test="query2!=null">
+	   <if test="query2.qName!=null and query2.qName !=''">
+	     and eName like concat('%',concat(#{query2.qName},'%'))
+	   </if>
+	   <if test="query2.cId!=null and query2.cId!=0">
+	    and cId=#{query2.cId}
+	   </if>
+	 </if>
+	limit #{startRow},3
+	</select> 
+	
+	<select id="queryRowCount2" parameterType="query2" resultType="int">
+	 select count(1) from student where dId=#{dId}
+		<if test="qName!=null and qName !=''">
+	     and eName like concat('%',concat(#{qName},'%'))
+	   </if>
+	   <if test="cId!=null and cId!=0">
+	    and cId=#{cId}
+	   </if>
+	</select>
+   
+    
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zl.dao.RoleMapper">
+   <resultMap type="role" id="roleRe">
+     <id column="rId" property="rId"/>
+     <result column="rNum" property="rNum" ></result>
+     <result column="rName" property="rName" ></result>    
+     <collection property="powers" column="rId" ofType="power" select="com.zl.dao.PowerMapper.queryPowerById"></collection>
+   </resultMap>
+   
+
+	
+	<select id="queryRoleById" parameterType="int" resultMap="roleRe">
+	  select * from role where rId=#{rId} 
+	</select>
+	
+	<select id="findRoles" resultType="role">
+	  select rId,rName from role
+	</select>
+	
+</mapper>

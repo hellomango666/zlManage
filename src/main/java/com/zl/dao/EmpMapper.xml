@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zl.dao.EmpMapper">	
+   <resultMap type="emp" id="empRe">
+     <id column="eId" property="eId"/>
+     <result column="eNum" property="eNum" ></result>
+     <result column="eName" property="eName" ></result>
+     <result column="epwd" property="epwd" ></result>
+     <result column="age" property="age" ></result>
+     <result column="sex" property="sex" ></result>
+     <result column="phone" property="phone" ></result>
+     <result column="regDate" property="regDate" ></result>
+     <result column="hireDate" property="hireDate" ></result>
+     <result column="sal" property="sal" ></result>
+     <result column="isGo" property="isGo" ></result>
+     
+     <association property="role" column="rId" javaType="role" select="com.zl.dao.RoleMapper.queryRoleById"></association>
+     <association property="dept" column="dId" javaType="dept" select="com.zl.dao.DeptMapper.queryDeptById"></association>
+   </resultMap>
+   
+   
+   <insert id="insertEmp" parameterType="emp">
+	 insert into emp(eId,eNum,eName,epwd,age,sex,phone,regDate,hireDate,sal,rId,dId,isGo)
+	 values 
+	(default,#{eNum},#{eName},#{epwd},#{age},#{sex},#{phone},#{regDate},#{hireDate},#{sal},#{role.rId},#{dept.dId},#{isGo})
+   </insert>
+   
+   <select id="empLog" parameterType="emp" resultMap="empRe">
+    select * from emp where eName=#{eName} and epwd=#{epwd}
+   </select>
+   
+   <select id="findEmp" parameterType="int" resultMap="empRe">
+    select * from emp where eId=#{eId}
+   </select>
+   
+   <update id="updateEmp" parameterType="emp">
+    update emp set eNum=#{eNum},eName=#{eName},age=#{age},sex=#{sex},phone=#{phone},hireDate=#{hireDate},sal=#{sal} where eId=#{eId}
+   </update>
+   
+   <update id="go">
+    update emp set isGo=#{0} where eId=#{1}
+   </update>
+   
+   <select id="findEmpBydId" parameterType="int" resultMap="empRe" >
+     select * from emp where dId=#{dId}
+   </select>
+   <!--分页查询部门老师  -->
+   <select id="queryEmpByFy" parameterType="fenYe2" resultMap="empRe">
+	select * from emp where dId=#{query2.dId} and rId=101 limit #{startRow},3
+	</select>
+	
+	<select id="queryRowCount2" parameterType="query2" resultType="int">
+	 select count(1) from emp where dId=#{dId} and rId=101
+	</select>
+	<!--  -->
+	
+	
+	<select id="findName" parameterType="java.lang.String" resultType="int">
+	  select count(1) from emp where eName=#{eName}
+	</select>
+	
+	<update id="upEmp" parameterType="emp" >
+	 update emp set eNum=#{eNum},hireDate=#{hireDate},sal=#{sal} where eId=#{eId}
+	</update>
+	
+	<!--查询主管  -->
+	<select id="queryManagers" parameterType="fenYe2" resultMap="empRe">
+	 select * from emp where rId=102 limit #{startRow},3
+	</select>
+	
+	<select id="queryRowCount3" parameterType="query2" resultType="int">
+	 select count(1) from emp where rId=102
+	</select>
+	
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
+
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSources"></property>
+	</bean>
+   <!-- 配置事物属性 -->
+	<tx:advice id="advice1" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*"/>
+		</tx:attributes>
+	</tx:advice>
+	<!-- 通过AOP的技术指定那些方法需要事物 -->
+	<aop:config>
+		<!-- 切点表达式 -->
+		<aop:pointcut expression="execution(* com.zl.service..*.*(..))" id="pt1"/>
+		<!-- 把切点表达式以及事物属性结合在一起 -->
+		<aop:advisor advice-ref="advice1" pointcut-ref="pt1"/>
+	</aop:config>
+
+</beans>
