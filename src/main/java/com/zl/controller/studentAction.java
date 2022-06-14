@@ -34,6 +34,7 @@ public class studentAction {
 	private RoleService rs;
 	
 	//http://localhost:8080/zlManage/login.jsp
+	//远程的
 	@RequestMapping("/upStu.do")
 	@ResponseBody
 	public Integer upStu(Student stu) {		
