@@ -1,4 +1,4 @@
-package com.zl.controller;
+package main.java.com.zl.controller;
 
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class empAction {
 	//http://localhost:8080/zlManage/login.jsp
 	
 	
-	//²é¿´
+	//ï¿½é¿´
 	@RequestMapping("/findEmpDept.do")
 	@ResponseBody
 	public ModelAndView findEmpDept(FenYe2 fy) {
@@ -42,7 +42,7 @@ public class empAction {
 		mv.setViewName("deptemp");
 		return mv;
 	}
-	//²éÕÒÀÏÊ¦ÐÅÏ¢
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¦ï¿½ï¿½Ï¢
 	@RequestMapping("/findEmp.do")
 	@ResponseBody
 	public ModelAndView findEmp(Integer eId) {
@@ -60,7 +60,7 @@ public class empAction {
         System.out.println("num="+num);
         return num;
 	}
-	//ÉóºË
+	//ï¿½ï¿½ï¿½
 	@RequestMapping("/findEmpDept2.do")
 	@ResponseBody
 	public ModelAndView findEmpDept2(FenYe2 fy) {
@@ -72,12 +72,12 @@ public class empAction {
 		return mv;
 	}
 	
-	//ÉóºËÍ¨¹ý
+	//ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 		@RequestMapping("/isGo.do")
 		@ResponseBody
 		public Integer isGo(Integer eId,Integer g) {
 			int num  = es.go(g, eId);
-			System.out.println("ÉóºË=="+num);
+			System.out.println("ï¿½ï¿½ï¿½=="+num);
 			return num;
 		}
 		
@@ -87,8 +87,8 @@ public class empAction {
 			int num = es.go(g, eId);
 			return num;
 		}
-		//²éÑ¯²¿ÃÅÖ÷¹Ü
-		//ÉóºË
+		//ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//ï¿½ï¿½ï¿½
 		@RequestMapping("/queryManagers.do")
 		@ResponseBody
 		public ModelAndView queryManagers(FenYe2 fy) {

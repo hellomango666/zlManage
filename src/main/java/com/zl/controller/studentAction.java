@@ -12,10 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.zl.pojo.Classes;
-import com.zl.pojo.Emp;
+import main.java.com.zl.dao.Emp;
 import com.zl.pojo.FenYe;
 import com.zl.pojo.FenYe2;
-import com.zl.pojo.Query;
 import com.zl.pojo.Student;
 import com.zl.service.ClassService;
 import com.zl.service.EmpService;
@@ -24,7 +23,7 @@ import com.zl.service.StudentService;
 
 @Controller
 @RequestMapping("/stu")
-public class stuAction {
+public class studentAction {
 	@Autowired
 	private EmpService es;
 	@Autowired
@@ -41,7 +40,7 @@ public class stuAction {
 		int num = ss.updateStu(stu);
 		return num;
 	}
-	//Ô±¹¤ÐÞ¸Ä
+	//Ô±ï¿½ï¿½ï¿½Þ¸ï¿½
 	@RequestMapping("/upEmp.do")
 	@ResponseBody
 	public Integer upEmp(Emp emp) {
@@ -49,7 +48,7 @@ public class stuAction {
 		return num;
 	}
 	
-	//²é¿´°à¼¶Ñ§Éú
+	//ï¿½é¿´ï¿½à¼¶Ñ§ï¿½ï¿½
 	@RequestMapping("/findByClass.do")
 	@ResponseBody
 	public ModelAndView findByClass(FenYe fy) {
@@ -61,7 +60,7 @@ public class stuAction {
 		return mv;
 	}
 	
-	//ÐÞ¸ÄÑ§ÉúÐÅÏ¢
+	//ï¿½Þ¸ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½Ï¢
 	@RequestMapping("/upScore.do")
 	@ResponseBody
 	public Integer upScore(Student stu) {
@@ -71,7 +70,7 @@ public class stuAction {
 		return num ;
 	}
 	
-	//²éÕÒÑ§Éú¸öÈËÐÅÏ¢
+	//ï¿½ï¿½ï¿½ï¿½Ñ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	@RequestMapping("/findStuById.do")
 	@ResponseBody
 	public ModelAndView findStuById(Integer eId,Integer rId) {
@@ -86,10 +85,10 @@ public class stuAction {
 		mv.setViewName("per");
 		return mv;
 	}
-	//²é¿´¸öÈË×ÊÁÏ
+	//ï¿½é¿´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
 	
-	//ÉóºËÍ¨¹ý
+	//ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
 	@RequestMapping("/isGo.do")
 	@ResponseBody
 	public Integer isGo(Integer eId,Integer g) {
@@ -101,10 +100,10 @@ public class stuAction {
 	@ResponseBody
 	public Integer notGo(Integer eId,Integer g) {
 		int num = ss.go(g, eId);
-		System.out.println("ÉóºË=="+num);
+		System.out.println("ï¿½ï¿½ï¿½=="+num);
 		return num;
 	}
-	//¸ù¾Ý²¿ÃÅ²éÕÒ
+	//ï¿½ï¿½ï¿½Ý²ï¿½ï¿½Å²ï¿½ï¿½ï¿½
 	
 	@RequestMapping("/findStuByDept.do")
 	@ResponseBody
@@ -118,17 +117,17 @@ public class stuAction {
 		mv.setViewName("deptstu");
 		return mv;
 	}
-	//É¾³ýÑ§Éú
+	//É¾ï¿½ï¿½Ñ§ï¿½ï¿½
 	@RequestMapping("/delStu.do")
 	public String delStu(Integer eId,HttpSession session){
 		Emp emp = (Emp) session.getAttribute("loginUser");
 		int did = emp.getDept().getdId();
 		int num = ss.delStu(eId);
-		System.out.println("É¾³ý=="+111);
+		System.out.println("É¾ï¿½ï¿½=="+111);
 		return "forward:findStuByDept.do?query2.dId="+did;
 	}
 	
-	//²é¿´°à¼¶Ñ§Éú
+	//ï¿½é¿´ï¿½à¼¶Ñ§ï¿½ï¿½
 		@RequestMapping("/findByClass2.do")
 		@ResponseBody
 		public ModelAndView findByClass2(FenYe fy) {

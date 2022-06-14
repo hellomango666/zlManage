@@ -1,4 +1,4 @@
-package com.zl.pojo;
+package main.java.com.zl.dao;
 
 import java.util.Date;
 
